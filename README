@@ -1,3 +1,21 @@
+
+基于OpenJDK10的中文JAVA，中英文关键字兼容
+
+./configure --disable-warnings-as-errors
+make all
+
+可以编译下面这段代码：
+===============================
+包 hello;
+
+公 类 Hello {
+	公 固 空 main(String[] args) {
+		System.out.println("你好 SwizL!");
+	}
+}
+===============================
+
+===================
 Welcome to OpenJDK!
 ===================
 
