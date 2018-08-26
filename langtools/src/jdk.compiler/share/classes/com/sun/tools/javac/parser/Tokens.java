@@ -60,7 +60,7 @@ public class Tokens {
 
     /** The names of all tokens.
      */
-    private Name[] tokenName = new Name[TokenKind.values().length];
+    private Name[] tokenName = new Name[2 * TokenKind.values().length];
 
     public static final Context.Key<Tokens> tokensKey = new Context.Key<>();
 
@@ -75,25 +75,43 @@ public class Tokens {
         context.put(tokensKey, this);
         names = Names.instance(context);
         for (TokenKind t : TokenKind.values()) {
-            if (t.name != null)
-                enterKeyword(t.name, t);
-            else
-                tokenName[t.ordinal()] = null;
+            if (t.name != null) {
+                Name n = names.fromString(t.name);
+                tokenName[2 * t.ordinal()] = n;
+                if (n.getIndex() > maxKey) maxKey = n.getIndex();
+                if (t.name_cn != null) {
+                    Name n_cn = names.fromString(t.name_cn);
+                    tokenName[2 * t.ordinal() + 1] = n_cn;
+                    if (n_cn.getIndex() > maxKey) maxKey = n_cn.getIndex();
+                }
+                else {
+                    tokenName[2 * t.ordinal() + 1] = null;
+                }
+            }
+                //enterKeyword(t.name, t);
+            else {
+                tokenName[2 * t.ordinal()] = null;
+                tokenName[2 * t.ordinal() + 1] = null;
+            }
         }
 
         key = new TokenKind[maxKey+1];
         for (int i = 0; i <= maxKey; i++) key[i] = TokenKind.IDENTIFIER;
         for (TokenKind t : TokenKind.values()) {
-            if (t.name != null)
-            key[tokenName[t.ordinal()].getIndex()] = t;
+            if (t.name != null) {
+                key[tokenName[2 * t.ordinal()].getIndex()] = t;
+                if (t.name_cn != null) {
+                    key[tokenName[2 * t.ordinal() + 1].getIndex()] = t;
+                }
+            }
         }
     }
 
-    private void enterKeyword(String s, TokenKind token) {
-        Name n = names.fromString(s);
-        tokenName[token.ordinal()] = n;
-        if (n.getIndex() > maxKey) maxKey = n.getIndex();
-    }
+    //private void enterKeyword(String s, TokenKind token) {
+        //Name n = names.fromString(s);
+        //tokenName[token.ordinal()] = n;
+        //if (n.getIndex() > maxKey) maxKey = n.getIndex();
+    //}
 
     /**
      * Create a new token given a name; if the name corresponds to a token name,
@@ -116,65 +134,65 @@ public class Tokens {
         EOF(),
         ERROR(),
         IDENTIFIER(Tag.NAMED),
-        ABSTRACT("abstract"),
-        ASSERT("assert", Tag.NAMED),
-        BOOLEAN("boolean", Tag.NAMED),
-        BREAK("break"),
-        BYTE("byte", Tag.NAMED),
-        CASE("case"),
-        CATCH("catch"),
-        CHAR("char", Tag.NAMED),
-        CLASS("class"),
-        CONST("const"),
-        CONTINUE("continue"),
-        DEFAULT("default"),
-        DO("do"),
-        DOUBLE("double", Tag.NAMED),
-        ELSE("else"),
-        ENUM("enum", Tag.NAMED),
-        EXTENDS("extends"),
-        FINAL("final"),
-        FINALLY("finally"),
-        FLOAT("float", Tag.NAMED),
-        FOR("for"),
-        GOTO("goto"),
-        IF("if"),
-        IMPLEMENTS("implements"),
-        IMPORT("import"),
-        INSTANCEOF("instanceof"),
-        INT("int", Tag.NAMED),
-        INTERFACE("interface"),
-        LONG("long", Tag.NAMED),
-        NATIVE("native"),
-        NEW("new"),
-        PACKAGE("package"),
-        PRIVATE("private"),
-        PROTECTED("protected"),
-        PUBLIC("public"),
-        RETURN("return"),
-        SHORT("short", Tag.NAMED),
-        STATIC("static"),
-        STRICTFP("strictfp"),
-        SUPER("super", Tag.NAMED),
-        SWITCH("switch"),
-        SYNCHRONIZED("synchronized"),
-        THIS("this", Tag.NAMED),
-        THROW("throw"),
-        THROWS("throws"),
-        TRANSIENT("transient"),
-        TRY("try"),
-        VOID("void", Tag.NAMED),
-        VOLATILE("volatile"),
-        WHILE("while"),
+        ABSTRACT("abstract", "象"),
+        ASSERT("assert", "断", Tag.NAMED),
+        BOOLEAN("boolean", "不二", Tag.NAMED),
+        BREAK("break", "破"),
+        BYTE("byte", "字", Tag.NAMED),
+        CASE("case", "例"),
+        CATCH("catch", "捕"),
+        CHAR("char", "符", Tag.NAMED),
+        CLASS("class", "类"),
+        CONST("const", "常"),
+        CONTINUE("continue", "继"),
+        DEFAULT("default", "默"),
+        DO("do", "运"),
+        DOUBLE("double", "双", Tag.NAMED),
+        ELSE("else", "另"),
+        ENUM("enum", "举", Tag.NAMED),
+        EXTENDS("extends", "承"),
+        FINAL("final", "终"),
+        FINALLY("finally", "末"),
+        FLOAT("float", "浮", Tag.NAMED),
+        FOR("for", "为"),
+        GOTO("goto", "去"),
+        IF("if", "如"),
+        IMPLEMENTS("implements", "成"),
+        IMPORT("import", "进"),
+        INSTANCEOF("instanceof", "是"),
+        INT("int", "整", Tag.NAMED),
+        INTERFACE("interface", "接"),
+        LONG("long", "长", Tag.NAMED),
+        NATIVE("native", "原"),
+        NEW("new", "新"),
+        PACKAGE("package", "包"),
+        PRIVATE("private", "私"),
+        PROTECTED("protected", "保"),
+        PUBLIC("public", "公"),
+        RETURN("return", "返"),
+        SHORT("short", "短", Tag.NAMED),
+        STATIC("static", "固"),
+        STRICTFP("strictfp", "严"),
+        SUPER("super", "超", Tag.NAMED),
+        SWITCH("switch", "分"),
+        SYNCHRONIZED("synchronized", "同"),
+        THIS("this", "此", Tag.NAMED),
+        THROW("throw", "抛"),
+        THROWS("throws", "弃"),
+        TRANSIENT("transient", "暂"),
+        TRY("try", "试"),
+        VOID("void", "空", Tag.NAMED),
+        VOLATILE("volatile", "易"),
+        WHILE("while", "当"),
         INTLITERAL(Tag.NUMERIC),
         LONGLITERAL(Tag.NUMERIC),
         FLOATLITERAL(Tag.NUMERIC),
         DOUBLELITERAL(Tag.NUMERIC),
         CHARLITERAL(Tag.NUMERIC),
         STRINGLITERAL(Tag.STRING),
-        TRUE("true", Tag.NAMED),
-        FALSE("false", Tag.NAMED),
-        NULL("null", Tag.NAMED),
+        TRUE("true", "真", Tag.NAMED),
+        FALSE("false", "假", Tag.NAMED),
+        NULL("null", "无", Tag.NAMED),
         UNDERSCORE("_", Tag.NAMED),
         ARROW("->"),
         COLCOL("::"),
@@ -229,22 +247,39 @@ public class Tokens {
         CUSTOM;
 
         public final String name;
+        public final String name_cn;
         public final Tag tag;
 
         TokenKind() {
-            this(null, Tag.DEFAULT);
+            //this(null, Tag.DEFAULT);
+            this(null, null, Tag.DEFAULT);
         }
 
         TokenKind(String name) {
-            this(name, Tag.DEFAULT);
+            //this(name, Tag.DEFAULT);
+            this(name, null, Tag.DEFAULT);
         }
 
         TokenKind(Tag tag) {
-            this(null, tag);
+            //this(null, tag);
+            this(null, null, tag);
         }
 
         TokenKind(String name, Tag tag) {
+            //this.name = name;
+            //this.tag = tag;
+            this(name, null, tag);
+        }
+
+        TokenKind(String name, String name_cn) {
+            //this.name = name;
+            //this.tag = tag;
+            this(name, name_cn, Tag.DEFAULT);
+        }
+
+        TokenKind(String name, String name_cn, Tag tag) {
             this.name = name;
+            this.name_cn = name_cn;
             this.tag = tag;
         }
 

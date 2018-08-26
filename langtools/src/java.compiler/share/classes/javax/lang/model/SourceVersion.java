@@ -317,12 +317,15 @@ public enum SourceVersion {
         switch(id) {
             // A trip through history
         case "strictfp":
+        case "严":
             return version.compareTo(RELEASE_2) >= 0;
 
         case "assert":
+        case "断":
             return version.compareTo(RELEASE_4) >= 0;
 
         case "enum":
+        case "举":
             return version.compareTo(RELEASE_5) >= 0;
 
         case "_":
@@ -335,16 +338,26 @@ public enum SourceVersion {
         case "abstract":  case "static":    case "final":
         case "transient": case "volatile":  case "synchronized":
         case "native":
+        case "公":    case "保": case "私":
+        case "象":  case "固":    case "终":
+        case "暂": case "易":  case "同":
+        case "原":
 
             // Declarations
         case "class":     case "interface": case "extends":
         case "package":   case "throws":    case "implements":
+        case "类":     case "接": case "承":
+        case "包":   case "弃":    case "成":
 
             // Primitive types and void
         case "boolean":   case "byte":      case "char":
         case "short":     case "int":       case "long":
         case "float":     case "double":
         case "void":
+        case "不二":   case "字":      case "符":
+        case "短":     case "整":       case "长":
+        case "浮":     case "双":
+        case "空":
 
             // Control flow
         case "if":      case "else":
@@ -353,16 +366,26 @@ public enum SourceVersion {
         case "for":     case "continue":
         case "switch":  case "case":     case "default":
         case "break":   case "throw":    case "return":
+        case "如":      case "另":
+        case "试":     case "捕":    case "末":
+        case "运":      case "当":
+        case "为":     case "继":
+        case "分":  case "例":     case "默":
+        case "破":   case "抛":    case "返":
 
             // Other keywords
         case  "this":   case "new":      case "super":
         case "import":  case "instanceof":
+        case  "此":   case "新":      case "超":
+        case "进":  case "是":
 
             // Forbidden!
         case "goto":        case "const":
+        case "去":        case "常":
 
             // literals
         case "null":         case "true":       case "false":
+        case "无":         case "真":       case "假":
             return true;
 
         default:

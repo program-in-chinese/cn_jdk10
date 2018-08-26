@@ -85,7 +85,7 @@ endif
 
 ################################################################################
 
-java.compiler_ADD_JAVAC_FLAGS += -Xdoclint:all/protected '-Xdoclint/package:java.*,javax.*'
+java.compiler_ADD_JAVAC_FLAGS += -encoding UTF-8 -Xdoclint:all/protected '-Xdoclint/package:java.*,javax.*'
 
 ################################################################################
 
@@ -351,7 +351,7 @@ jdk.charsets_COPY += .dat
 
 ################################################################################
 
-jdk.compiler_ADD_JAVAC_FLAGS += -Xdoclint:all/protected '-Xdoclint/package:-com.sun.tools.*,-jdk.internal.*' \
+jdk.compiler_ADD_JAVAC_FLAGS += -encoding UTF-8 -Xdoclint:all/protected '-Xdoclint/package:-com.sun.tools.*,-jdk.internal.*' \
     -XDstringConcat=inline
 jdk.compiler_CLEAN_FILES += $(wildcard \
     $(patsubst %, $(JDK_TOPDIR)/src/jdk.compiler/share/classes/%/*.properties, \
