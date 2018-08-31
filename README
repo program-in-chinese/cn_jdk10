@@ -26,3 +26,5 @@ source code, please see either of these:
   * common/doc/building.md     (markdown version)
 
 See http://openjdk.java.net/ for more information about OpenJDK.
+
+详见知乎专栏文章: [改造JAVA，给OpenJDK10添加中文关键词](https://zhuanlan.zhihu.com/p/42442463)
